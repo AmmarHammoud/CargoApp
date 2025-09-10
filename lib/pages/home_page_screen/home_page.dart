@@ -35,10 +35,19 @@ class HomePage extends StatelessWidget {
                     backgroundColor: Theme.of(context).primaryColor,
                     leading: const Icon(Icons.location_on_outlined, size: 29),
                     leadingWidth: 60.0,
-                    actions: const [
-                      Padding(
-                        padding: EdgeInsets.only(right: 20.0),
-                        child: Icon(FontAwesomeIcons.bell),
+                    actions: [
+                      ConditionalBuilder(
+                        condition: state is HomePageLoggingOutLoadingState,
+                        builder: (context) => MyLoaderIndicator(),
+                        fallback: (context) => Padding(
+                          padding: EdgeInsets.only(right: 20.0),
+                          child: IconButton(
+                            icon: Icon(FontAwesomeIcons.bell),
+                            onPressed: () {
+                              homeCubit.logout();
+                            },
+                          ),
+                        ),
                       ),
                     ],
                     elevation: Theme.of(context).appBarTheme.elevation,

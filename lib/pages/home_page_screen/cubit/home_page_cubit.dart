@@ -65,18 +65,34 @@ class HomePageCubit extends Cubit<HomePageStates> {
       );
       print(response.data);
       if (response.statusCode == 200) {
-        emit(
-          HomePageScannedQrSuccessState(response.data['message']),
-        );
+        emit(HomePageScannedQrSuccessState(response.data['message']));
       } else {
-        emit(
-          HomePageScannedQrErrorState(response.data['message']),
-        );
+        emit(HomePageScannedQrErrorState(response.data['message']));
       }
     } catch (e, h) {
       print(e.toString());
       print(h.toString());
       emit(HomePageScannedQrErrorState(e.toString()));
+    }
+  }
+
+  logout() async {
+    emit(HomePageLoggingOutLoadingState());
+    try {
+      var response = await DioHelper.logout();
+      if (response.statusCode == 200) {
+        emit(HomePageLoggingOutSuccessfulState());
+      } else {
+        emit(
+          HomePageLoggingOutErrorState(
+            response.data['message'] ?? 'error logging out',
+          ),
+        );
+      }
+    } catch (e, h) {
+      print(e.toString());
+      print(h.toString());
+      emit(HomePageLoggingOutErrorState(e.toString()));
     }
   }
 }
