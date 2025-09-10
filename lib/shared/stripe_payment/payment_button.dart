@@ -12,11 +12,13 @@ import 'cubit/states.dart';
 class PaymentButton extends StatelessWidget {
   final String title;
   final String shipmentId;
+  final Color color;
 
   const PaymentButton({
     super.key,
     required this.title,
     required this.shipmentId,
+    this.color = Constants.primaryColor
   });
 
   @override
@@ -43,6 +45,7 @@ class PaymentButton extends StatelessWidget {
         builder: (context, state) {
           final paymentCubit = PaymentCubit.get(context);
           return CustomizedButton(
+            color: color,
             title: title,
             condition: state is! PaymentLoadingState,
             onPressed: () {

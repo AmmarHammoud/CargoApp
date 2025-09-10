@@ -14,15 +14,15 @@ class HomePageCubit extends Cubit<HomePageStates> {
   List<String> announcementImages = [];
   List<ShipmentModel> shipments = [];
 
-  subscribeToNotification() async {
-    await SimpleNotifications.subscribe(
-      channelName: 'client',
-      roomId: StorageHelper.getUser().id,
-      onEvent: (e){
-        print(e.toString());
-      }
-    );
-  }
+  // subscribeToNotification() async {
+  //   await SimpleNotifications.subscribe(
+  //     channelName: 'client',
+  //     roomId: StorageHelper.getUser().id,
+  //     onEvent: (e){
+  //       print(e.toString());
+  //     }
+  //   );
+  // }
 
   getAnnouncements() async {
     emit(HomePageLoadingState());

@@ -1,4 +1,5 @@
 import 'package:get_storage/get_storage.dart';
+import 'package:latlong2/latlong.dart';
 
 import '../../models/user_model.dart';
 
@@ -10,6 +11,8 @@ abstract class StorageHelper {
     _storage = GetStorage();
     // _storage.remove('token');
   }
+
+  static late LatLng myInitialLocation;
 
   static storeUser(UserModel user) {
     _storage.write('id', user.id);

@@ -25,6 +25,7 @@ class ShipmentModel {
   late final String barcode;
   late final String? qrCodeUrl;
   late final UserModel? recipient;
+  late final bool isPaid;
 
   ShipmentModel({
     required this.type,
@@ -51,11 +52,12 @@ class ShipmentModel {
     numberOfPieces = json['number_of_pieces'];
     weight = json['weight'];
     deliveryPrice = json['delivery_price'];
-    productValue = json['product_value'];
-    totalAmount = json['total_amount'];
+    // productValue = json['product_value'];
+    // totalAmount = json['total_amount'];
     invoiceNumber = json['invoice_number'];
     barcode = json['barcode'];
-    qrCodeUrl = '${Constants.baseUrl}${json['qr_code_url']}';
+    qrCodeUrl = json['qr_code_url'];
+    isPaid = json['isPaid'];
     if (json['recipient'] != null) {
       print(json['recipient']);
       recipient = UserModel.fromJson(json['recipient']);
@@ -63,30 +65,29 @@ class ShipmentModel {
     status = ShipmentStatus.fromBackendStatus(json['status']);
   }
 
-  Map<String, dynamic> toJson() =>
-      {
-        // 'id': id,
-        // 'clientId': clientId,
-        // 'centerFromId': centerFromId,
-        // 'centerToId': centerToId,
-        // 'pickupDriverId': pickupDriverId,
-        // 'deliveryDriverId': deliveryDriverId,
-        'sender_lat': senderLat,
-        'sender_lng': senderLng,
-        // 'recipientId': recipientId,
-        // 'recipientLat': recipientLat,
-        // 'recipientLng': recipientLng,
-        'shipment_type': type,
-        'number_of_pieces': numberOfPieces,
-        'weight': weight,
-        //'deliveryPrice': deliveryPrice,
-        'product_value': productValue,
-        // 'totalAmount': totalAmount,
-        // 'invoiceNumber': invoiceNumber,
-        // 'barcode': barcode,
-        // 'qrCodeUrl': qrCodeUrl,
-        // 'status': status.toJson(),
-      };
+  Map<String, dynamic> toJson() => {
+    // 'id': id,
+    // 'clientId': clientId,
+    // 'centerFromId': centerFromId,
+    // 'centerToId': centerToId,
+    // 'pickupDriverId': pickupDriverId,
+    // 'deliveryDriverId': deliveryDriverId,
+    'sender_lat': senderLat,
+    'sender_lng': senderLng,
+    // 'recipientId': recipientId,
+    // 'recipientLat': recipientLat,
+    // 'recipientLng': recipientLng,
+    'shipment_type': type,
+    'number_of_pieces': numberOfPieces,
+    'weight': weight,
+    //'deliveryPrice': deliveryPrice,
+    'product_value': productValue,
+    // 'totalAmount': totalAmount,
+    // 'invoiceNumber': invoiceNumber,
+    // 'barcode': barcode,
+    // 'qrCodeUrl': qrCodeUrl,
+    // 'status': status.toJson(),
+  };
 
   @override
   String toString() {
@@ -106,9 +107,9 @@ class ShipmentModel {
     numberOfPieces: $numberOfPieces
     weight: $weight
     deliveryPrice: $deliveryPrice
-    productValue: $productValue
-    totalAmount: $totalAmount
     invoiceNumber: $invoiceNumber
-    barcode: $barcode''';
+    barcode: $barcode
+    isPaid: $isPaid
+    ''';
   }
 }

@@ -4,7 +4,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hugeicons/hugeicons.dart';
 
 abstract class Constants {
-  static Color primaryColor = Colors.pink[900]!;
+  // static Color primaryColor = Colors.pink[900]!;
+  static const Color primaryColor = Color(0xFF65253E);
   static Color successColor = Colors.green;
   static Color errorColor = Colors.red;
   // static String baseUrl = 'http://10.225.247.17:8000';

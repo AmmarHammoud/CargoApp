@@ -9,6 +9,7 @@ import '../../../shared/component/rating_widget/rating_widget.dart';
 import '../../../shared/component/report_widget/report_widget.dart';
 import '../../../shared/constants/constants.dart';
 import '../../../shared/constants/shipment_status.dart';
+import '../../../shared/stripe_payment/payment_button.dart';
 import '../cubit/cubit.dart';
 import '../cubit/states.dart';
 import 'invoice_details_row_component.dart';
@@ -24,7 +25,7 @@ class InvoiceScreen extends StatelessWidget {
     return BlocConsumer<AddShipmentCubit, AddShipmentStates>(
       listener: (context, state) {},
       builder: (context, state) {
-        var screenHeight = MediaQuery.of(context).size.height;
+        var screenWidth = MediaQuery.of(context).size.width;
         return Scaffold(
           appBar: AppBar(
             title: const Text('Invoice Screen'),
@@ -105,13 +106,13 @@ class InvoiceScreen extends StatelessWidget {
                                 value:
                                     '${shipmentInvoice.deliveryPrice} ${Constants.appCurrency}',
                               ),
-                              Divider(),
-                              InvoiceDetailsRowComponent(
-                                icon: ConstIcons.totalAmountIcon,
-                                title: 'total amount',
-                                value:
-                                    '${shipmentInvoice.totalAmount} ${Constants.appCurrency}',
-                              ),
+                              // Divider(),
+                              // InvoiceDetailsRowComponent(
+                              //   icon: ConstIcons.totalAmountIcon,
+                              //   title: 'total amount',
+                              //   value:
+                              //       '${shipmentInvoice.totalAmount} ${Constants.appCurrency}',
+                              // ),
                             ],
                           ),
                         ),
@@ -146,20 +147,45 @@ class InvoiceScreen extends StatelessWidget {
                       if (cubit.shipmentInvoice.status ==
                           ShipmentStatus.delivered)
                         RatingWidget(id: id),
-                      ElevatedButton(
-                        onPressed: () {
-                          showDialog(
-                            context: context,
-                            builder: (context) => ReportWidget(id: id),
-                          );
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.red,
-                        ),
-                        child: const Text(
-                          'Report',
-                          style: TextStyle(color: Colors.white),
-                        ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          ElevatedButton(
+                            onPressed: () {
+                              showDialog(
+                                context: context,
+                                builder: (context) => ReportWidget(id: id),
+                              );
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.red,
+                            ),
+                            child: const Text(
+                              'Report',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          ),
+                          if (!shipmentInvoice.isPaid)
+                            SizedBox(
+                              width: screenWidth * 0.3,
+                              child: PaymentButton(
+                                title: 'pay',
+                                shipmentId: shipmentInvoice.id.toString(),
+                              ),
+                            ),
+                          if (shipmentInvoice.isPaid)
+                            SizedBox(
+                              width: screenWidth * 0.3,
+
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(15),
+                                  color: Colors.green,
+                                ),
+                                child: Center(child: Text('already paid')),
+                              ),
+                            ),
+                        ],
                       ),
                     ],
                   ),

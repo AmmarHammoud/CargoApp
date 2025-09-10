@@ -1,3 +1,4 @@
+import 'package:carge_app/models/sender_and_recipient_locatinos.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:get/get.dart';
@@ -8,19 +9,29 @@ import '../../../shared/component/show_toast.dart';
 import '../../../shared/constants/app_routes.dart';
 import '../../../shared/constants/constants.dart';
 
-class MapWidget extends StatefulWidget {
-  const MapWidget({super.key});
+class RecipientMapWidget extends StatefulWidget {
+  const RecipientMapWidget({super.key, required this.senderAndRecipientLocations});
+
+  final SenderAndRecipientLocations senderAndRecipientLocations;
 
   @override
-  State<MapWidget> createState() => _MapWidgetState();
+  State<RecipientMapWidget> createState() => _RecipientMapWidgetState();
 }
 
-class _MapWidgetState extends State<MapWidget> {
+class _RecipientMapWidgetState extends State<RecipientMapWidget> {
   LatLng? _tappedPoint;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).primaryColor,
+        // leading: const Icon(Icons.location_on_outlined, size: 29),
+        // leadingWidth: 60.0,
+        title: Text('Recipient location'),
+        elevation: Theme.of(context).appBarTheme.elevation,
+        shape: Theme.of(context).appBarTheme.shape,
+      ),
       floatingActionButton: ElevatedButton(
         onPressed: () {
           if (_tappedPoint == null) {
@@ -31,7 +42,7 @@ class _MapWidgetState extends State<MapWidget> {
             );
             return;
           }
-          Get.toNamed(AppRoutes.recipientInfoScreen, arguments: _tappedPoint);
+          Get.toNamed(AppRoutes.recipientInfoScreen, arguments: SenderAndRecipientLocations(senderLoc: widget.senderAndRecipientLocations.senderLoc, recipientLoc: _tappedPoint!));
         },
         child: Text(
           'Next',

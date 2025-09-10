@@ -1,5 +1,7 @@
+import 'package:carge_app/models/sender_and_recipient_locatinos.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:latlong2/latlong.dart';
 import '../../../shared/component/customized_botton.dart';
@@ -11,47 +13,56 @@ import '../cubit/cubit.dart';
 import '../cubit/states.dart';
 
 class RecipientInfoScreen extends StatelessWidget {
-  const RecipientInfoScreen({super.key, required this.recipientLocation});
+  const RecipientInfoScreen({
+    super.key,
+    required this.senderAndRecipientLocations,
+  });
 
-  final LatLng recipientLocation;
+  final SenderAndRecipientLocations senderAndRecipientLocations;
 
   @override
   Widget build(BuildContext context) {
     var cubit = context.read<AddShipmentCubit>();
     var screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).primaryColor,
+        title: Text('Recipient info'),
+        elevation: Theme.of(context).appBarTheme.elevation,
+        shape: Theme.of(context).appBarTheme.shape,
+      ),
       body: Padding(
         padding: const EdgeInsets.all(15.0),
         child: SingleChildScrollView(
           child: ConstrainedBox(
-            constraints: BoxConstraints(maxHeight: screenHeight * 0.5),
+            constraints: BoxConstraints(maxHeight: screenHeight * 0.2),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(35.0),
-                  ),
-                  child: Row(
-                    children: [
-                      IconButton(
-                        onPressed: () {
-                          Get.offAllNamed(AppRoutes.homeScreen);
-                        },
-                        icon: Icon(Icons.arrow_back),
-                      ),
-                      const Text('Add Shipment'),
-                    ],
-                  ),
-                ),
-                const Text('Recipient Info'),
-                ValidatedTextField(
-                  icon: ConstIcons.nameIcon,
-                  controller: cubit.userTextController.nameController,
-                  validator: cubit.userTextValidators.nameValidator,
-                  errorText: 'name cannot be empty',
-                  hintText: 'name',
-                ),
+                // Container(
+                //   decoration: BoxDecoration(
+                //     borderRadius: BorderRadius.circular(35.0),
+                //   ),
+                //   child: Row(
+                //     children: [
+                //       IconButton(
+                //         onPressed: () {
+                //           Get.offAllNamed(AppRoutes.homeScreen);
+                //         },
+                //         icon: Icon(Icons.arrow_back),
+                //       ),
+                //       const Text('Add Shipment'),
+                //     ],
+                //   ),
+                // ),
+                // const Text('Recipient Info'),
+                // ValidatedTextField(
+                //   icon: ConstIcons.nameIcon,
+                //   controller: cubit.userTextController.nameController,
+                //   validator: cubit.userTextValidators.nameValidator,
+                //   errorText: 'name cannot be empty',
+                //   hintText: 'name',
+                // ),
                 ValidatedTextField(
                   icon: ConstIcons.phoneIcon,
                   controller: cubit.userTextController.phoneController,
@@ -59,14 +70,14 @@ class RecipientInfoScreen extends StatelessWidget {
                   errorText: 'phone cannot be empty',
                   hintText: 'phone',
                 ),
-                ValidatedTextField(
-                  icon: ConstIcons.emailIcon,
-                  controller: cubit.userTextController.emailController,
-                  validator: cubit.userTextValidators.emailValidator,
-                  errorText: 'email cannot be empty',
-                  hintText: 'email',
-                  hasNextText: false,
-                ),
+                // ValidatedTextField(
+                //   icon: ConstIcons.emailIcon,
+                //   controller: cubit.userTextController.emailController,
+                //   validator: cubit.userTextValidators.emailValidator,
+                //   errorText: 'email cannot be empty',
+                //   hintText: 'email',
+                //   hasNextText: false,
+                // ),
                 // SizedBox(
                 //   // height: screenHeight * 0.1,
                 //   // width:  screenWidth * 0.1,
@@ -76,19 +87,19 @@ class RecipientInfoScreen extends StatelessWidget {
                   title: 'Next',
                   condition: cubit.state is! AddShipmentLoadingState,
                   onPressed: () async {
-                    if (!cubit.userTextValidators.nameValidator.currentState!
-                            .validate() ||
-                        !cubit.userTextValidators.phoneValidator.currentState!
-                            .validate() ||
-                        !cubit.userTextValidators.emailValidator.currentState!
-                            .validate()) {
+                    if (!cubit.userTextValidators.phoneValidator.currentState!
+                        .validate()) {
                       return;
                     }
                     await cubit.addRecipientInfo(
-                      recipientLocation: recipientLocation,
+                      recipientLocation:
+                          senderAndRecipientLocations.recipientLoc!,
                     );
                     if (cubit.state is AddShipmentSuccessState) {
-                      Get.toNamed(AppRoutes.shipmentInfoScreen);
+                      Get.toNamed(
+                        AppRoutes.shipmentInfoScreen,
+                        arguments: senderAndRecipientLocations,
+                      );
                       final successState =
                           cubit.state as AddShipmentSuccessState;
                       showToast(

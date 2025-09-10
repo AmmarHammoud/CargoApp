@@ -17,4 +17,5 @@ abstract class Endpoints {
   static String rating = '/ratings';
   static String reportAShipment = '/reports';
   static String createPaymentIntent = '/payment/create';
+  static String markPaymentSuccess = '/payment/success';
 }

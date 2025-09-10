@@ -17,7 +17,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => HomePageCubit()..subscribeToNotification()..getShipments(),
+      create: (context) => HomePageCubit()..getShipments(),
       child: Builder(
         builder: (context) {
           return RefreshIndicator(
