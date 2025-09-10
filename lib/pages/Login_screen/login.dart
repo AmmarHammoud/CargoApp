@@ -56,21 +56,17 @@ class LoginScreen extends StatelessWidget {
                         Expanded(child: SizedBox()),
                         Text(
                           'Go ahead and set up\nyour account',
-                          style: Theme.of(context)
-                              .textTheme
-                              .titleLarge!
-                              .copyWith(color: Colors.white),
+                          style: Theme.of(
+                            context,
+                          ).textTheme.titleLarge!.copyWith(color: Colors.white),
                         ),
                         Text(
                           'Sign in-up enjoy the best experience',
-                          style: Theme.of(context)
-                              .textTheme
-                              .titleSmall!
-                              .copyWith(color: Colors.grey),
+                          style: Theme.of(
+                            context,
+                          ).textTheme.titleSmall!.copyWith(color: Colors.grey),
                         ),
-                        SizedBox(
-                          height: 30,
-                        ),
+                        SizedBox(height: 30),
                       ],
                     ),
                   ),
@@ -78,16 +74,16 @@ class LoginScreen extends StatelessWidget {
                 Expanded(
                   child: Container(
                     decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(30)),
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(30),
+                    ),
                     transform: Matrix4.translationValues(0.0, -25.0, 0.0),
                     child: Padding(
                       padding: const EdgeInsets.all(15.0),
                       child: SingleChildScrollView(
                         child: ConstrainedBox(
                           constraints: BoxConstraints(
-                            maxHeight:
-                            MediaQuery.of(context).size.height * 0.4,
+                            maxHeight: MediaQuery.of(context).size.height * 0.45,
                           ),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -95,9 +91,11 @@ class LoginScreen extends StatelessWidget {
                               ValidatedTextField(
                                 icon: ConstIcons.emailIcon,
                                 controller: loginCubitObject
-                                    .userTextController.emailController,
+                                    .userTextController
+                                    .emailController,
                                 validator: loginCubitObject
-                                    .userTextValidators.emailValidator,
+                                    .userTextValidators
+                                    .emailValidator,
                                 errorText: 'email field cannot be empty',
                                 hintText: 'email',
                               ),
@@ -105,15 +103,18 @@ class LoginScreen extends StatelessWidget {
                                 icon: ConstIcons.lockIcon,
                                 obscureText: true,
                                 controller: loginCubitObject
-                                    .userTextController.passwordController,
+                                    .userTextController
+                                    .passwordController,
                                 validator: loginCubitObject
-                                    .userTextValidators.passwordValidator,
+                                    .userTextValidators
+                                    .passwordValidator,
                                 errorText: 'password field cannot be empty',
                                 hintText: 'password',
                                 hasNextText: false,
                               ),
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.start,
@@ -123,26 +124,36 @@ class LoginScreen extends StatelessWidget {
                                     ],
                                   ),
                                   TextButton(
-                                      onPressed: () {},
-                                      child: Text('Forget Password?'))
+                                    onPressed: () {},
+                                    child: Text('Forget Password?'),
+                                  ),
                                 ],
                               ),
                               CustomizedButton(
-                                  title: 'Login',
-                                  condition: state is! LoginScreenLoadingState,
-                                  onPressed: () {
-                                    loginCubitObject.login(
-                                      context: context,
-                                    );
-                                  }),
-                              Row(
-                                children: const [
-                                  Expanded(child: Divider()),
-                                  Padding(
-                                    padding: EdgeInsets.symmetric(horizontal: 10),
-                                    child: Text('Or login with'),
-                                  ),
-                                  Expanded(child: Divider()),
+                                title: 'Login',
+                                condition: state is! LoginScreenLoadingState,
+                                onPressed: () {
+                                  loginCubitObject.login(context: context);
+                                },
+                              ),
+                              // Row(
+                              //   children: const [
+                              //     Expanded(child: Divider()),
+                              //     Padding(
+                              //       padding: EdgeInsets.symmetric(
+                              //         horizontal: 10,
+                              //       ),
+                              //       child: Text('Or login with'),
+                              //     ),
+                              //     Expanded(child: Divider()),
+                              //   ],
+                              // ),
+                              Column(
+                                children: [
+                                  Text('Don\'t have an account?'),
+                                  TextButton(onPressed: (){
+                                    Get.toNamed(AppRoutes.signUpScreen);
+                                  }, child: Text('Sign up')),
                                 ],
                               ),
                             ],
