@@ -42,7 +42,7 @@ class AddShipmentCubit extends Cubit<AddShipmentStates> {
     }
   }
 
-  addShipmentInfo() async {
+  addShipmentInfo({required LatLng senderLoc}) async {
     print(shipmentTextControllers.shipmentTypeController.text);
     print(shipmentTextControllers.numberOfPiecesController.text);
     print(shipmentTextControllers.productValueController.text);
@@ -50,9 +50,9 @@ class AddShipmentCubit extends Cubit<AddShipmentStates> {
             .validate() ||
         !shipmentTextValidators.numberOfPiecesValidator.currentState!
             .validate() ||
-        !shipmentTextValidators.weightValidator.currentState!.validate() ||
-        !shipmentTextValidators.productValueValidator.currentState!
-            .validate()) {
+        !shipmentTextValidators.weightValidator.currentState!.validate()
+    // || !shipmentTextValidators.productValueValidator.currentState!.validate()
+    ) {
       return;
     }
     emit(AddShipmentLoadingState());
@@ -61,15 +61,16 @@ class AddShipmentCubit extends Cubit<AddShipmentStates> {
         token: StorageHelper.getUserToken()!,
         shipment: ShipmentModel(
           type: shipmentTextControllers.shipmentTypeController.text,
-          numberOfPieces:
-              int.parse(shipmentTextControllers.numberOfPiecesController.text),
+          numberOfPieces: int.parse(
+            shipmentTextControllers.numberOfPiecesController.text,
+          ),
           weight: shipmentTextControllers.weightController.text,
           productValue: shipmentTextControllers.productValueController.text,
           senderLat: '33.510414',
           senderLng: '36.278336',
         ),
       );
-      print(response.data);
+      // print(response.data);
       if (response.statusCode == 200) {
         emit(AddShipmentSuccessState(response.data['message']));
       } else {
@@ -82,9 +83,7 @@ class AddShipmentCubit extends Cubit<AddShipmentStates> {
     }
   }
 
-  getShipmentInvoice({
-    required String id,
-  }) async {
+  getShipmentInvoice({required String id}) async {
     emit(AddShipmentLoadingState());
 
     try {
@@ -92,10 +91,14 @@ class AddShipmentCubit extends Cubit<AddShipmentStates> {
         token: StorageHelper.getUserToken()!,
         id: id,
       );
+      for (var k in response.data.keys) {
+        print(k);
+      }
       // print(response.data);
+      print('${response.data['isPaid']} =======================================================');
       if (response.statusCode == 200) {
         shipmentInvoice = ShipmentModel.fromJson(response.data['shipment']);
-        print(shipmentInvoice);
+        // print(shipmentInvoice);
         emit(AddShipmentSuccessState('message'));
       } else {
         emit(AddShipmentErrorState(response.data['message']));

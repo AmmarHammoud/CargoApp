@@ -1,3 +1,4 @@
+import 'package:carge_app/shared/locator/locator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -18,14 +19,15 @@ void main() async {
   Stripe.publishableKey = dotenv.env['STRIPE_PUBLISHABLE_KEY']!;
   Stripe.merchantIdentifier = dotenv.env['STRIPE_MERCHANT_ID'];
   await Stripe.instance.applySettings();
-  await SimpleNotifications.init(
-    // onTap: onTap,
-    appKey: dotenv.env['PUSHER_APP_KEY']!,
-    cluster: dotenv.env['PUSHER_APP_CLUSTER']!,
-    appSecret: dotenv.env['PUSHER_APP_SECRET']!,
-    appId: dotenv.env['PUSHER_APP_ID']!,
-    enableLogging: true,
-  );
+  StorageHelper.myInitialLocation = await Locator.getCurrentLocation();
+  // await SimpleNotifications.init(
+  //   // onTap: onTap,
+  //   appKey: dotenv.env['PUSHER_APP_KEY']!,
+  //   cluster: dotenv.env['PUSHER_APP_CLUSTER']!,
+  //   appSecret: dotenv.env['PUSHER_APP_SECRET']!,
+  //   appId: dotenv.env['PUSHER_APP_ID']!,
+  //   enableLogging: true,
+  // );
   runApp(MyApp());
 }
 

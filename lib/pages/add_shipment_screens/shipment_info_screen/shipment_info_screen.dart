@@ -1,3 +1,4 @@
+import 'package:carge_app/models/sender_and_recipient_locatinos.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
@@ -12,7 +13,12 @@ import '../cubit/cubit.dart';
 import '../cubit/states.dart';
 
 class ShipmentInfoScreen extends StatelessWidget {
-  const ShipmentInfoScreen({super.key});
+  const ShipmentInfoScreen({
+    super.key,
+    required this.senderAndRecipientLocations,
+  });
+
+  final SenderAndRecipientLocations senderAndRecipientLocations;
 
   @override
   Widget build(BuildContext context) {
@@ -67,14 +73,14 @@ class ShipmentInfoScreen extends StatelessWidget {
                   errorText: 'weight cannot be empty',
                   hintText: 'shipment weight',
                 ),
-                ValidatedTextField(
-                  icon: ConstIcons.shipmentValueIcon,
-                  controller:
-                      cubit.shipmentTextControllers.productValueController,
-                  validator: cubit.shipmentTextValidators.productValueValidator,
-                  errorText: 'value cannot be empty',
-                  hintText: 'value',
-                ),
+                // ValidatedTextField(
+                //   icon: ConstIcons.shipmentValueIcon,
+                //   controller:
+                //       cubit.shipmentTextControllers.productValueController,
+                //   validator: cubit.shipmentTextValidators.productValueValidator,
+                //   errorText: 'value cannot be empty',
+                //   hintText: 'value',
+                // ),
                 // ValidatedTextField(
                 //   icon: ConstIcons.senderLatIcon,
                 //   controller: cubit.shipmentTextControllers.shipmentTypeController,
@@ -93,7 +99,9 @@ class ShipmentInfoScreen extends StatelessWidget {
                   title: 'add shipment',
                   condition: cubit.state is! AddShipmentLoadingState,
                   onPressed: () async {
-                    await cubit.addShipmentInfo();
+                    await cubit.addShipmentInfo(
+                      senderLoc: senderAndRecipientLocations.senderLoc,
+                    );
                     if (cubit.state is AddShipmentSuccessState) {
                       Get.offNamed(AppRoutes.homeScreen);
                       showToast(

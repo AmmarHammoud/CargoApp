@@ -1,8 +1,9 @@
+import 'package:carge_app/pages/add_shipment_screens/sender_location_screen/sender_map_widget.dart';
 import 'package:get/get.dart';
 import '../../pages/Login_screen/login.dart';
 import '../../pages/add_shipment_screens/add_shipment_screen.dart';
 import '../../pages/add_shipment_screens/invoice_screen/invoice_screen.dart';
-import '../../pages/add_shipment_screens/recipient_info_screen/map_widget.dart';
+import '../../pages/add_shipment_screens/recipient_info_screen/recipient_map_widget.dart';
 import '../../pages/add_shipment_screens/recipient_info_screen/recipient_info_screen.dart';
 import '../../pages/add_shipment_screens/shipment_info_screen/shipment_info_screen.dart';
 import '../../pages/home_page_screen/home_page.dart';
@@ -22,7 +23,10 @@ abstract class AppRoutes {
   static const String recipientInfoScreen = '/recipientInfoScreen';
   static const String shipmentInfoScreen = '/shipmentInfoScreen';
   static const String invoiceScreen = '/invoiceScreen';
-  static const String mapWidget = '/mapWidget';
+
+  // static const String mapWidget = '/mapWidget';
+  static const String recipientMapWidget = '/recipientMapWidget';
+  static const String senderMapWidget = '/senderMapWidget';
 
   static final initialRoute = StorageHelper.getUserToken() == null
       ? loginScreen
@@ -40,13 +44,23 @@ abstract class AppRoutes {
     GetPage(name: addShipmentScreen, page: () => const AddShipmentScreen()),
     GetPage(
       name: recipientInfoScreen,
-      page: () => RecipientInfoScreen(recipientLocation: Get.arguments),
+      page: () =>
+          RecipientInfoScreen(senderAndRecipientLocations: Get.arguments),
     ),
-    GetPage(name: shipmentInfoScreen, page: () => const ShipmentInfoScreen()),
+    GetPage(
+      name: shipmentInfoScreen,
+      page: () =>
+          ShipmentInfoScreen(senderAndRecipientLocations: Get.arguments),
+    ),
     GetPage(
       name: invoiceScreen,
       page: () => InvoiceScreen(id: Get.arguments),
     ),
-    GetPage(name: mapWidget, page: () => const MapWidget()),
+    GetPage(name: senderMapWidget, page: () => SenderMapWidget()),
+    GetPage(
+      name: recipientMapWidget,
+      page: () =>
+          RecipientMapWidget(senderAndRecipientLocations: Get.arguments),
+    ),
   ];
 }

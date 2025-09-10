@@ -297,4 +297,24 @@ class DioHelper {
       ),
     );
   }
+
+  static Future<Response> markPaymentSuccess({
+    required String token,
+    required String paymentIntentId,
+  }) async {
+    return await dio.get(
+      Endpoints.markPaymentSuccess,
+      queryParameters: {'payment_intent_id': paymentIntentId},
+      options: Options(
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+        followRedirects: false,
+        validateStatus: (status) {
+          return true;
+        },
+      ),
+    );
+  }
 }

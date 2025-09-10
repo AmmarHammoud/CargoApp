@@ -9,18 +9,20 @@ class PaymentCubit extends Cubit<PaymentStates> {
 
   static PaymentCubit get(context) => BlocProvider.of(context);
 
-  Future<void> makePayment({
-    required String shipmentId,
-  }) async {
+  Future<void> makePayment({required String shipmentId}) async {
     emit(PaymentLoadingState());
     try {
-      final paymentIntentData = await _createPaymentIntent(shipmentId: shipmentId);
+      final paymentIntentData = await _createPaymentIntent(
+        shipmentId: shipmentId,
+      );
       print('payment intent data: ');
-      for(var k in paymentIntentData!.keys){
+      for (var k in paymentIntentData!.keys) {
         print('$k: ${paymentIntentData[k]}');
       }
       // print('payment intent data: $paymentIntentData');
-      print('payment intent client secret: ${paymentIntentData!['client_secret']}');
+      print(
+        'payment intent client secret: ${paymentIntentData!['client_secret']}',
+      );
 
       var paymentSheetOption = await Stripe.instance.initPaymentSheet(
         paymentSheetParameters: SetupPaymentSheetParameters(
@@ -35,13 +37,24 @@ class PaymentCubit extends Cubit<PaymentStates> {
       print('payment sheet option: $paymentSheetOption');
 
       await Stripe.instance.presentPaymentSheet();
-      emit(PaymentSuccessState('Paid successfully'));
+
+      var markPaymentResponse = await DioHelper.markPaymentSuccess(
+        token: StorageHelper.getUserToken()!,
+        paymentIntentId: paymentIntentData['payment_intent_id'],
+      );
+
+      if (markPaymentResponse.statusCode == 200) {
+        emit(PaymentSuccessState('Paid successfully'));
+      } else {
+        emit(PaymentErrorState(markPaymentResponse.data['message']));
+      }
     } on Exception catch (e, h) {
-        print(e.toString());
-        print(h.toString());
+      print(e.toString());
+      print(h.toString());
       if (e is StripeException) {
-        emit(PaymentErrorState(
-            'Error from Stripe: ${e.error.localizedMessage}'));
+        emit(
+          PaymentErrorState('Error from Stripe: ${e.error.localizedMessage}'),
+        );
       } else {
         print(e.toString());
         emit(PaymentErrorState('An unexpected error occurred: $e'));

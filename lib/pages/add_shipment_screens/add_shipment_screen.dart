@@ -1,4 +1,6 @@
-import '../add_shipment_screens/recipient_info_screen/map_widget.dart';
+import 'package:carge_app/pages/add_shipment_screens/sender_location_screen/sender_map_widget.dart';
+
+import '../add_shipment_screens/recipient_info_screen/recipient_map_widget.dart';
 import 'package:flutter/material.dart';
 
 class AddShipmentScreen extends StatelessWidget {
@@ -6,6 +8,6 @@ class AddShipmentScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MapWidget();
+    return const SenderMapWidget();
   }
 }

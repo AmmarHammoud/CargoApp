@@ -45,7 +45,6 @@ class CurrentShipmentWidget extends StatelessWidget {
                   Text(shipmentModel.type),
                 ],
               ),
-              PaymentButton(title: 'pay', shipmentId: shipmentModel.id.toString(),),
               Row(
                 children: [
                   const Expanded(child: SizedBox()),
