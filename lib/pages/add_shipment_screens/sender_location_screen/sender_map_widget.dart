@@ -19,6 +19,7 @@ class SenderMapWidget extends StatefulWidget {
 
 class _SenderMapWidgetState extends State<SenderMapWidget> {
   LatLng? _tappedPoint;
+
   @override
   Widget build(BuildContext context) {
     // showToast(context: context, text: 'قم بتحديد موقع الإرسال', color: Constants.successColor);
@@ -37,7 +38,7 @@ class _SenderMapWidgetState extends State<SenderMapWidget> {
             showToast(
               context: context,
               text: 'رجاء قم بتحديد موقع الإرسال',
-              color: Colors.yellow[800]!,
+              color: Constants.warningColor,
             );
             return;
           }

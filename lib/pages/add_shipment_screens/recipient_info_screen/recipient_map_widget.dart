@@ -38,7 +38,7 @@ class _RecipientMapWidgetState extends State<RecipientMapWidget> {
             showToast(
               context: context,
               text: 'رجاء قم بتحديد موقع المستلم',
-              color: Colors.yellow[800]!,
+              color: Constants.warningColor,
             );
             return;
           }
