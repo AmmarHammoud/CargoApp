@@ -26,7 +26,11 @@ class HomePage extends StatelessWidget {
               homeCubit.getShipments();
             },
             child: BlocConsumer<HomePageCubit, HomePageStates>(
-              listener: (context, state) {},
+              listener: (context, state) {
+                if(state is HomePageLoggingOutSuccessfulState){
+                  Get.offAllNamed(AppRoutes.loginScreen);
+                }
+              },
               builder: (context, state) {
                 var homeCubit = HomePageCubit.get(context);
 

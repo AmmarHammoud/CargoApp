@@ -60,10 +60,14 @@ class DioHelper {
     );
   }
 
-  static Future<Response> logout() async {
+  static Future<Response> logout({required String token}) async {
     return await dio.get(
-      'logout',
+      '/signout',
       options: Options(
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
         followRedirects: false,
         validateStatus: (status) {
           return true;

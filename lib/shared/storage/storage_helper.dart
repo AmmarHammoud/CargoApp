@@ -31,6 +31,14 @@ abstract class StorageHelper {
     );
   }
 
+  static removeUser(){
+    _storage.remove('id');
+    _storage.remove('userName');
+    _storage.remove('email');
+    _storage.remove('phone');
+    _storage.remove('token');
+  }
+
   static String? getUserToken() {
     return _storage.read('token');
   }

@@ -79,8 +79,10 @@ class HomePageCubit extends Cubit<HomePageStates> {
   logout() async {
     emit(HomePageLoggingOutLoadingState());
     try {
-      var response = await DioHelper.logout();
+      var response = await DioHelper.logout(token: StorageHelper.getUserToken()!);
+      print(response.data);
       if (response.statusCode == 200) {
+        StorageHelper.removeUser();
         emit(HomePageLoggingOutSuccessfulState());
       } else {
         emit(

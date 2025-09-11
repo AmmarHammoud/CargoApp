@@ -196,7 +196,7 @@ class SignUp extends StatelessWidget {
                     ),
                     TextButton(
                         onPressed: () {
-                          context.go(AppRoutes.loginScreen);
+                          Get.offAllNamed(AppRoutes.loginScreen);
                         },
                         child: Text(
                           "Login",
