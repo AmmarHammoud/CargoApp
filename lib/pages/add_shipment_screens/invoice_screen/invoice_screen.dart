@@ -165,26 +165,26 @@ class InvoiceScreen extends StatelessWidget {
                               style: TextStyle(color: Colors.white),
                             ),
                           ),
-                          if (!shipmentInvoice.isPaid)
-                            SizedBox(
-                              width: screenWidth * 0.3,
-                              child: PaymentButton(
-                                title: 'pay',
-                                shipmentId: shipmentInvoice.id.toString(),
-                              ),
-                            ),
-                          if (shipmentInvoice.isPaid)
-                            SizedBox(
-                              width: screenWidth * 0.3,
-
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(15),
-                                  color: Colors.green,
-                                ),
-                                child: Center(child: Text('already paid')),
-                              ),
-                            ),
+                          // if (shipmentInvoice.isPaid ?? false)
+                          //   SizedBox(
+                          //     width: screenWidth * 0.3,
+                          //     child: PaymentButton(
+                          //       title: 'pay',
+                          //       shipmentId: shipmentInvoice.id.toString(),
+                          //     ),
+                          //   ),
+                          // if (shipmentInvoice.isPaid ?? false)
+                          //   SizedBox(
+                          //     width: screenWidth * 0.3,
+                          //
+                          //     child: Container(
+                          //       decoration: BoxDecoration(
+                          //         borderRadius: BorderRadius.circular(15),
+                          //         color: Colors.green,
+                          //       ),
+                          //       child: Center(child: Text('already paid')),
+                          //     ),
+                          //   ),
                         ],
                       ),
                     ],
