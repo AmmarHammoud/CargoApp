@@ -25,7 +25,7 @@ class ShipmentModel {
   late final String barcode;
   late final String? qrCodeUrl;
   late final UserModel? recipient;
-  late final bool isPaid;
+  late final bool? isPaid;
 
   ShipmentModel({
     required this.type,
