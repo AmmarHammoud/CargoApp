@@ -1,10 +1,12 @@
 import 'package:carge_app/shared/locator/locator.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:get/get.dart';
 import 'package:simple_noti/simple_noti.dart';
+import 'firebase_options.dart';
 import 'pages/add_shipment_screens/cubit/cubit.dart';
 import 'shared/constants/app_routes.dart';
 import 'shared/constants/constants.dart';
@@ -12,6 +14,10 @@ import 'shared/dio_helper/dio_helper.dart';
 import 'shared/storage/storage_helper.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   await dotenv.load(fileName: "assets/.env");
   DioHelper.init();
   await StorageHelper.init();
